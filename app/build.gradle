@@ -7,6 +7,10 @@ android {
     namespace 'com.example.sanber_kotlin'
     compileSdk 33
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.sanber_kotlin"
         minSdk 24

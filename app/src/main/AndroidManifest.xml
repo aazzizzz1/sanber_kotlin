@@ -12,6 +12,18 @@
         android:theme="@style/Theme.Sanber_kotlin"
         tools:targetApi="31">
         <activity
+            android:name=".activity.IntentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MoveWithDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MoveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PersegiPanjangActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
