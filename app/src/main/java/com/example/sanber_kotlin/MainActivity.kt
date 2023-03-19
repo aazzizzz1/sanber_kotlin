@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.sanber_kotlin.fragment.DashboardFragment
 import com.example.sanber_kotlin.fragment.HomeFragment
+import com.example.sanber_kotlin.fragment.NetworkingFragment
 import com.example.sanber_kotlin.fragment.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_profile -> {
                     loadFragment(ProfileFragment())
                 }
-
+                R.id.menu_task -> {
+                    loadFragment(NetworkingFragment())
+                }
             }
             true
         }
