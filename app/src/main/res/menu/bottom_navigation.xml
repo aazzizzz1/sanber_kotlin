@@ -8,7 +8,7 @@
     <item
         android:id="@+id/menu_dashboard"
         android:icon="@drawable/baseline_space_dashboard_24"
-        android:title="@string/dashboard"/>
+        android:title="@string/listviewcoffea"/>
 
     <item
         android:id="@+id/menu_profile"

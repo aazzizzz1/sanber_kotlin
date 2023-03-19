@@ -1,60 +1,95 @@
 package com.example.sanber_kotlin.fragment
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanber_kotlin.R
+import com.example.sanber_kotlin.adapter.CoffeaListAdapter
+import com.example.sanber_kotlin.data.Coffea
+import com.example.sanber_kotlin.databinding.FragmentDashboardBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DashboardFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DashboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentDashboardBinding? = null
+    private val binding get() = _binding!!
+    private val list = ArrayList<Coffea>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+    ): View {
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DashboardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DashboardFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        list.addAll(listCoffea)
+        showRecyclerList()
+
+//        binding.btnMoveFragment.setOnClickListener {
+//            val selectedCoffea = (binding.rvCoffea.adapter as CoffeaListAdapter).getSelectedCoffea()
+//            if (selectedCoffea != null) {
+//                val bundle = Bundle()
+//                bundle.putString("nama", selectedCoffea.nama)
+//                bundle.putString("deskripsi", selectedCoffea.deskripsi)
+//                bundle.putInt("gambar", selectedCoffea.gambar)
+//
+//                val detailFragment = DetailFragment()
+//                detailFragment.arguments = bundle
+//
+//                parentFragmentManager.beginTransaction()
+//                    .replace(R.id.fragment_container, detailFragment, "DetailFragment")
+//                    .addToBackStack(null)
+//                    .commit()
+//            } else {
+//                Toast.makeText(context, "Pilih salah satu kopi terlebih dahulu", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+    }
+
+    private val listCoffea: ArrayList<Coffea>
+        get() {
+            val dataName = resources.getStringArray(R.array.data_nama)
+            val dataDescription = resources.getStringArray(R.array.data_deskripsi)
+            val dataPhoto = resources.obtainTypedArray(R.array.data_image)
+            val listCoffea = java.util.ArrayList<Coffea>()
+            for (i in dataName.indices) {
+                val coffea = Coffea(dataName[i],dataDescription[i], dataPhoto.getResourceId(i, -1))
+                listCoffea.add(coffea)
             }
+            dataPhoto.recycle() // tambahkan ini untuk menghindari memory leak
+            return listCoffea
+        }
+
+    private fun showRecyclerList() {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.rvCoffea.layoutManager = GridLayoutManager(context, 2)
+        } else {
+            binding.rvCoffea.layoutManager = LinearLayoutManager(context)
+        }
+        val coffeaListAdapter = CoffeaListAdapter(list)
+        binding.rvCoffea.adapter = coffeaListAdapter
+        coffeaListAdapter.setOnItemClickCallback(object : CoffeaListAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Coffea) {
+                showSelectedCoffea(data)
+            }
+        })
+    }
+
+    private fun showSelectedCoffea(coffea: Coffea) {
+        Toast.makeText(context, "Kamu memilih " + coffea.nama, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

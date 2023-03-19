@@ -23,4 +23,24 @@
     <string name="ini_fragment_home">Ini Fragment Home</string>
     <string name="ini_fragment_dashboard">Ini Fragment Dashboard</string>
     <string name="ini_fragment_profile">Ini Fragment Profile</string>
+    <string name="listviewcoffea">Coffea</string>
+
+    <string-array name="data_nama">
+        <item>Coffea hitam</item>
+        <item>Cofea susu</item>
+        <item>Fresh cofea</item>
+    </string-array>
+
+    <string-array name="data_deskripsi">
+        <item>Kopi hitam adalah kopi yang pahit dengan sedikit gula</item>
+        <item>Kopi susu adalah kopi hitam dengan sedikit gula</item>
+        <item>Kopi fresh adalah kopi segar</item>
+    </string-array>
+
+    <string-array name="data_image">
+        <item>@drawable/cofee1</item>
+        <item>@drawable/cofee2</item>
+        <item>@drawable/cofee3</item>
+    </string-array>
+
 </resources>
