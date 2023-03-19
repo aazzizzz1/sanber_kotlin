@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sanber_kotlin.R
 import com.example.sanber_kotlin.data.Coffea
 
-class CoffeaListAdapter(private val listCoffea: ArrayList<Coffea>) : RecyclerView.Adapter<CoffeaListAdapter.ListViewHolder>() {
+class CoffeaListAdapter(private var listCoffea: ArrayList<Coffea>) : RecyclerView.Adapter<CoffeaListAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -42,6 +42,11 @@ class CoffeaListAdapter(private val listCoffea: ArrayList<Coffea>) : RecyclerVie
         var imgItem: ImageView = itemView.findViewById(R.id.img_item)
         var tvNama: TextView = itemView.findViewById(R.id.tv_item_nama)
         var tvDeskripsi: TextView = itemView.findViewById(R.id.tv_item_deskripsi)
+    }
+
+    fun setFilteredList(mList: ArrayList<Coffea>) {
+        listCoffea.addAll(mList)
+        notifyDataSetChanged()
     }
 
     interface OnItemClickCallback {

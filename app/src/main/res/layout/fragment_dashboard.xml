@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.DashboardFragment">
+    tools:context=".MainActivity">
+
+ <com.google.android.material.card.MaterialCardView
+     android:id="@+id/mcv_holder"
+     android:layout_width="0dp"
+     android:layout_height="wrap_content"
+     app:cardCornerRadius="8dp"
+     app:cardElevation="8dp"
+     app:cardUseCompatPadding="true"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.5"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent" >
+
+  <androidx.appcompat.widget.SearchView
+      android:id="@+id/sv_search"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:queryHint="Cari Kopi..."
+      app:iconifiedByDefault="false"
+      app:queryBackground="@android:color/transparent" />
+
+ </com.google.android.material.card.MaterialCardView>
+
 
  <androidx.recyclerview.widget.RecyclerView
      android:id="@+id/rv_coffea"
      android:layout_width="0dp"
      android:layout_height="0dp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@id/mcv_holder"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
-     app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent" />
-
+     app:layout_constraintHorizontal_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanber_kotlin.R
@@ -19,12 +20,15 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
     private val list = ArrayList<Coffea>()
+    var coffeaListAdapter = CoffeaListAdapter(list)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        binding.svSearch.setOnQueryTextListener(SearchQueryTextListener(this::filterList))
+
         return binding.root
     }
 
@@ -34,26 +38,20 @@ class DashboardFragment : Fragment() {
         list.addAll(listCoffea)
         showRecyclerList()
 
-//        binding.btnMoveFragment.setOnClickListener {
-//            val selectedCoffea = (binding.rvCoffea.adapter as CoffeaListAdapter).getSelectedCoffea()
-//            if (selectedCoffea != null) {
-//                val bundle = Bundle()
-//                bundle.putString("nama", selectedCoffea.nama)
-//                bundle.putString("deskripsi", selectedCoffea.deskripsi)
-//                bundle.putInt("gambar", selectedCoffea.gambar)
-//
-//                val detailFragment = DetailFragment()
-//                detailFragment.arguments = bundle
-//
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.fragment_container, detailFragment, "DetailFragment")
-//                    .addToBackStack(null)
-//                    .commit()
-//            } else {
-//                Toast.makeText(context, "Pilih salah satu kopi terlebih dahulu", Toast.LENGTH_SHORT).show()
-//            }
-//        }
     }
+
+    private fun filterList(query: String?) {
+        query ?: return
+
+        val filteredList = listCoffea.filter { it.nama.contains(query) }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(requireContext(), "Data tidak ditemukan", Toast.LENGTH_SHORT).show()
+        } else {
+            coffeaListAdapter.setFilteredList(filteredList as ArrayList<Coffea>)
+        }
+    }
+
 
     private val listCoffea: ArrayList<Coffea>
         get() {
@@ -75,7 +73,6 @@ class DashboardFragment : Fragment() {
         } else {
             binding.rvCoffea.layoutManager = LinearLayoutManager(context)
         }
-        val coffeaListAdapter = CoffeaListAdapter(list)
         binding.rvCoffea.adapter = coffeaListAdapter
         coffeaListAdapter.setOnItemClickCallback(object : CoffeaListAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Coffea) {
@@ -87,6 +84,18 @@ class DashboardFragment : Fragment() {
     private fun showSelectedCoffea(coffea: Coffea) {
         Toast.makeText(context, "Kamu memilih " + coffea.nama, Toast.LENGTH_SHORT).show()
     }
+
+    class SearchQueryTextListener(private val filterList: (String?) -> Unit) : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            filterList(query)
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return false
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
