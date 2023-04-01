@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.sanber_kotlin.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_networkingFragment"
+            app:destination="@id/networkingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/networkingFragment"
+        android:name="com.example.sanber_kotlin.fragment.NetworkingFragment"
+        android:label="fragment_networking"
+        tools:layout="@layout/fragment_networking" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.sanber_kotlin.fragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.sanber_kotlin.fragment.DashboardFragment"
+        android:label="DashboardFragment" />
+</navigation>

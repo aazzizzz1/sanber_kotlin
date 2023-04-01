@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.example.sanber_kotlin.R
 import com.example.sanber_kotlin.activity.MoveActivity
 import com.example.sanber_kotlin.activity.MoveWithDataActivity
@@ -26,6 +27,9 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        binding.btnTugas9.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_networkingFragment)
+        }
 //        binding.btnMoveFragmentData.text = "Haii Aku Aziz"
         binding.btnMoveFragment.setOnClickListener {  }
 

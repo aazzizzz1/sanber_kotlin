@@ -1,52 +1,49 @@
 package com.example.sanber_kotlin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.example.sanber_kotlin.fragment.DashboardFragment
-import com.example.sanber_kotlin.fragment.HomeFragment
-import com.example.sanber_kotlin.fragment.NetworkingFragment
-import com.example.sanber_kotlin.fragment.ProfileFragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.example.sanber_kotlin.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        loadFragment(HomeFragment())
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_home -> {
-                    loadFragment(HomeFragment())
-                }
-
-                R.id.menu_dashboard -> {
-                    loadFragment(DashboardFragment())
-                }
-
-                R.id.menu_profile -> {
-                    loadFragment(ProfileFragment())
-                }
-                R.id.menu_task -> {
-                    loadFragment(NetworkingFragment())
-                }
-            }
-            true
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupNav()
     }
+    private fun setupNav() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHost.navController
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setupWithNavController(navController)
+
+        val appBarConfig = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.dashboardFragment,
+                R.id.profileFragment,
+            )
+        )
+
+        navController.addOnDestinationChangedListener { _: NavController, destination: NavDestination, _: Bundle? ->
+            binding.bottomNavigationView.isVisible = appBarConfig.topLevelDestinations.contains(destination.id)
+        }
+
+    }
     private fun loadFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-
-        fragmentTransaction
+        supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
+            .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }
 }

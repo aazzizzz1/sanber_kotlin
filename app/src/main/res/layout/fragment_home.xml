@@ -27,4 +27,11 @@
         android:layout_marginBottom="16dp"
         android:text="@string/move_with_data" />
 
+    <Button
+        android:id="@+id/btn_tugas9"
+        android:layout_width="match_parent"
+        android:layout_below="@id/btn_move_fragment_data"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/tugas9" />
 </RelativeLayout>
